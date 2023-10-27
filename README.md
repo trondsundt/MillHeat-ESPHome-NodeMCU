@@ -1,5 +1,7 @@
 # MillHeat-ESPHome-NodeMCU
-A  guide to replacing the HF-LPT120 V1 WiFi chip in the Mill Convection Heater (Gen2) with a NodeMCU using ESPHome
+A  guide to replacing the HF-LPT120 V1 WiFi chip in the Mill Convection Heater (Gen2) with a NodeMCU using ESPHome.
+
+
 
 ## On the shoulders of giants
 
