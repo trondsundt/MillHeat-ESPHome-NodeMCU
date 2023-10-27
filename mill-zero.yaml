@@ -1,6 +1,10 @@
+substitutions:
+  devicename: Mill Zero
+  lower_devicename: "mill-zero"
+
 esphome:
-  name: millzero
-  friendly_name: millzero
+  name: "${lower_devicename}"
+  friendly_name: "${devicename}"
   includes:
     - mill.h  
 
@@ -25,7 +29,7 @@ wifi:
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "Millzero Fallback Hotspot"
+    ssid: "${devicename} Fallback Hotspot"
     password: "uUA5fHxXU69J"
 
 captive_portal:
@@ -39,9 +43,9 @@ uart:
 switch:
   - platform: gpio
     pin: GPIO02
-    #internal: true
+    internal: true
     restore_mode: ALWAYS_ON
-    name: "mill01 GPIO"  
+    name: "${devicename} GPIO"  
 
 climate:
 - platform: custom
@@ -53,8 +57,8 @@ climate:
 
 
   climates:
-    - name: "Mill01 Climate"
+    - name: "${devicename} Climate"
       visual:
-         min_temperature: 1 °C
+         min_temperature: 5 °C
          max_temperature: 35 °C
          temperature_step: 1 °C    
