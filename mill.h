@@ -36,7 +36,7 @@ public:
           // Divide by 10 to get the final current_temperature
           this->current_temperature = (float)hexValue / 10.0;
 
-          ESP_LOGI("ReceivedBytes", "Hex: %s, Decimal: %d, Temperature: %.1f", hexStr, hexValue, this->current_temperature);
+          // ESP_LOGI("ReceivedBytes", "Hex: %s, Decimal: %d, Temperature: %.1f", hexStr, hexValue, this->current_temperature);
         }
 
         if (receivedChars[10] == 0x00) {
