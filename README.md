@@ -8,6 +8,15 @@ This project is based on initial work by [JDolven](https://github.com/JDolven/) 
 * [JDolven/Replacing-HF_LPT120A-in-a-millheat-heater](https://github.com/JDolven/Replacing-HF_LPT120A-in-a-millheat-heater/)
 * [metrafonic/MillHeat-ESPHome](https://github.com/metrafonic/MillHeat-ESPHome)
 
+# Installing the software
+
+* Put the mill.h and mill-zero.yaml files in your ESPHome folder
+* Edit as necessary (api keys, wifi, etc)
+* Flash/install to device
+* Remove the HF-LPT120 chip from the heater
+* Install and connect the NodeMCU as per instructions
+* Turn on power 🥳
+
 # Install
 
 To be able to send commands on the TX pin, we must remove the existing HF-LP120 chip as it is holing the TX pin high (so that we cannot send data).
