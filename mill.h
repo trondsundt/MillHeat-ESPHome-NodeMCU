@@ -23,14 +23,27 @@ public:
       if (newData == true) {
         newData = false;     
       if (receivedChars[4] == 0xC9 ) { // Filtrer ut unødig informasjon
-          
+      
           if (receivedChars[12] != 0 ) {
           this->target_temperature= receivedChars[12];
           }
 
-          if (receivedChars[6] != 0 ) {
-            this->current_temperature = (float)receivedChars[6]/10;
-          }
+
+        if (receivedChars[6] != 0 ) {
+            char hexStr[3];
+            sprintf(hexStr, "%02x%02x", receivedChars[7], receivedChars[6]);
+        
+            // Convert the hexadecimal string to an integer
+            int hexValue;
+            sscanf(hexStr, "%x", &hexValue);
+        
+            // Divide by 10 to get the final current_temperature
+            this->current_temperature = (float)hexValue / 10.0;
+            
+            ESP_LOGI("ReceivedBytes", "Hex: %s, Decimal: %d, Temperature: %.1f", hexStr, hexValue, this->current_temperature);
+        }
+
+
           if (receivedChars[10] == 0x00 ) {
           this->mode= climate::CLIMATE_MODE_OFF;
           this->action= climate::CLIMATE_ACTION_OFF;
