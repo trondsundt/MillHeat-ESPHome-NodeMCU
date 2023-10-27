@@ -1,9 +1,12 @@
-# MillHeat-ESPHome
-A quick guide to replacing the HF-LPT120 V1 WiFi chip in the Mill Convection Heater (Gen2) with and ESP01 (or any other esp8266/esp32)
+# MillHeat-ESPHome-NodeMCU
+A  guide to replacing the HF-LPT120 V1 WiFi chip in the Mill Convection Heater (Gen2) with a NodeMCU using ESPHome
 
-Based on the initial work found in [JDolven/Replacing-HF_LPT120A-in-a-millheat-heater](https://github.com/JDolven/Replacing-HF_LPT120A-in-a-millheat-heater/)
+## On the shoulders of giants
 
-This repo contains additional functionality such as specifying the uart device, fan mode and climate actions
+This project is based on initial work by [JDolven](https://github.com/JDolven/) and [metrafonic](https://github.com/metrafonic). Their repositories laid the groundwork and is the whole reason this repository exists.
+
+* [JDolven/Replacing-HF_LPT120A-in-a-millheat-heater](https://github.com/JDolven/Replacing-HF_LPT120A-in-a-millheat-heater/)
+* [metrafonic/MillHeat-ESPHome](https://github.com/metrafonic/MillHeat-ESPHome)
 
 # Install
 
@@ -16,10 +19,10 @@ Here are the pin connections:
 - PIN6 - TX
 - PIN7 - GPIO02
 
-Notice that pin 2 is connected to 3v3 and the EN pin so that the esp01 can boot. This will not be needed for other devices such as the nodemcu.
 
-We need GPIO02 to be set to high. I assume this is how the HF chip could communicate that it was online. I tried running it without this pin and it would stop working after a couple of minutes/hours.
-I presume it didnt fail instantly as the voltage may have been floating when it was diconnected.
+ESP-01 - Notice that pin 2 is connected to 3v3 and the EN pin so that the esp01 can boot. This will not be needed for other devices such as the nodemcu.
+
+We need GPIO02 to be set to high. I assume this is how the HF chip could communicate that it was online. [metrafonic](https://github.com/metrafonic) tried running it without this pin and it would stop working after a couple of minutes/hours.
 
 ![](IMG_20221018_225900.jpg)
 
