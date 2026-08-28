@@ -1,5 +1,73 @@
 # MillHeat-ESPHome-NodeMCU
+
 A  guide to replacing the HF-LPT120 V1 WiFi chip in the Mill Convection Heater (Gen2) with a NodeMCU using ESPHome.
+
+> ## ⚠️ Outdated — use the maintained component instead
+>
+> This repository dates from 2023 and relies on ESPHome's old **custom component**
+> mechanism (`esphome: includes: mill.h` + `climate: platform: custom`).
+> That mechanism was **removed in ESPHome 2025.2.0**, and the climate API has changed
+> twice since (`CLIMATE_SCHEMA` removed in 2025.11.0, `ClimateTraits::set_supports_*`
+> removed in 2026.5.0). **`mill.h` will not compile on a current ESPHome.**
+>
+> For the same heater, use the maintained external component
+> [`mill_panelheater_gen2`](https://devices.esphome.io/devices/mill-panelheater-gen2/)
+> (source: [owangen/esphome](https://github.com/owangen/esphome)). It is a proper
+> external component, adds a power sensor, and is kept in step with ESPHome releases:
+>
+> ```yaml
+> external_components:
+>   source:
+>     type: git
+>     url: https://github.com/owangen/esphome
+>   components: [ mill_panelheater_gen2 ]
+>
+> esp8266:
+>   board: d1_mini
+>
+> logger:
+>   baud_rate: 0   # must be off, or the logger floods the same UART
+>
+> uart:
+>   id: uart_bus
+>   tx_pin: GPIO01
+>   rx_pin: GPIO03
+>   baud_rate: 9600
+>
+> climate:
+>   - platform: mill_panelheater_gen2
+>     name: Mill heater
+> ```
+>
+> The wiring notes below still apply — in particular **GPIO02 must be held high**,
+> which appears to be the "module is online" signal the heater expects.
+>
+> If you insist on running the code in this repository, either pin ESPHome to 2025.1,
+> or use [robertklep/esphome-custom-component](https://github.com/robertklep/esphome-custom-component)
+> to restore the `custom` platform and replace
+> `traits.set_supports_current_temperature(true)` with
+> `traits.add_feature_flags(climate::CLIMATE_SUPPORTS_CURRENT_TEMPERATURE)`
+> (likewise for `set_supports_action`).
+
+## FAQ
+
+**Do the display and the +/- buttons still work?** Yes. The wifi module (HF-LPT120) is
+only a UART peer; the heater's own board drives the display and the buttons. The ESP
+listens to the status frames and keeps Home Assistant in sync with changes made on the
+heater itself.
+
+**Can I use an ESP-01S / NodeMCU / Wemos D1 mini?** All three. Change `esp8266: board:`
+(`esp01_1m` / `nodemcuv2` / `d1_mini`); UART is on GPIO1 (TX) / GPIO3 (RX) on all of
+them. The ESP-01S is the smallest and draws the least; NodeMCU is awkward to fit inside
+the heater. NodeMCU and D1 mini also power their USB-serial chip from the heater's 3.3 V
+rail — add 470–1000 µF across 3V3/GND. The EN-to-3V3 trick below is ESP-01 only.
+
+**Is 1 MB flash too small?** No — the yaml here targets `board: esp01_1m`. Only caveat is
+OTA, which needs room for the binary twice (under ~512 kB); a minimal build lands around
+400–450 kB. If OTA complains about space, flash over USB-TTL or drop `captive_portal`.
+
+⚠️ The API encryption key and OTA password committed in `mill-zero.yaml` are public —
+generate your own.
 
 
 
